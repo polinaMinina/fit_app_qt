@@ -1,5 +1,13 @@
 # fit_app_qt
 
-В папке release - собранное приложение, запускается файлом fit_application.exe
+В папке app - исходные файлы приложения с кодом, сборка через CMake
 
-В папке app - исходные файлы приложения с кодом
+Требования: Qt 5.12+
+
+Инструкция для сборки через консоль:
+mkdir build
+cd build
+cmake ..
+cmake --build . --target install
+
+Для visual studio собирается через компилятор msvc17
