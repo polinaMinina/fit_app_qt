@@ -4,10 +4,10 @@
 
 Требования: Qt 5.12+
 
-Инструкция для сборки через консоль:
-mkdir build
-cd build
-cmake ..
+Инструкция для сборки через консоль:  
+mkdir build  
+cd build  
+cmake ..  
 cmake --build . --target install
 
 Для visual studio собирается через компилятор msvc17
