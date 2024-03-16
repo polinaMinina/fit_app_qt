@@ -23,7 +23,7 @@
     void Sets::loadExercises() {
         QSqlQuery query;
         if (!query.exec("SELECT name FROM exercises")) {
-            qDebug() << "Ошибка запроса: " << query.lastError().text();
+           // qDebug() << "Ошибка запроса: " << query.lastError().text();
             return;
         }
 
@@ -77,7 +77,7 @@
     void Sets::loadSets() {
         QSqlQuery query;
         if (!query.exec("SELECT set_id, set_name FROM exercise_sets")) {
-            qDebug() << "Ошибка запроса при загрузке сетов: " << query.lastError().text();
+           // qDebug() << "Ошибка запроса при загрузке сетов: " << query.lastError().text();
             return;
         }
 
@@ -107,7 +107,7 @@
             exerciseQuery.prepare("SELECT e.name, l.reps_count FROM exercise_set_links l JOIN exercises e ON l.exercise_id = e.id WHERE l.set_id = :set_id");
             exerciseQuery.bindValue(":set_id", setId);
 
-            qDebug() << "Запрос для получения упражнений сета:" << exerciseQuery.executedQuery(); // Вывод сформированного запроса
+           // qDebug() << "Запрос для получения упражнений сета:" << exerciseQuery.executedQuery(); // Вывод сформированного запроса
 
 
             if (exerciseQuery.exec()) {
@@ -119,7 +119,7 @@
                 }
                 exercisesItem->setText(exercisesInfo.join(", "));
             } else {
-                qDebug() << "Ошибка при получении упражнений для сета: " << exerciseQuery.lastError().text();
+              //  qDebug() << "Ошибка при получении упражнений для сета: " << exerciseQuery.lastError().text();
             }
 
             ui->exercise_tableWidget->setItem(row, 0, idItem);
@@ -149,14 +149,13 @@
         query.prepare("INSERT INTO exercise_sets (set_name) VALUES (:set_name)");
         query.bindValue(":set_name", setName);
         if (!query.exec()) {
-            qDebug() << "Ошибка при добавлении сета: " << query.lastError().text();
+           // qDebug() << "Ошибка при добавлении сета: " << query.lastError().text();
                 return;
         }
         int setId = query.lastInsertId().toInt();
 
         bool exercisesAdded = false;
 
-        qDebug() << "Я еще тут жив";
         // Теперь добавляем связи между сетом и упражнениями
         for (int i = 0; i < ui->exerciseSelect_tableWidget->rowCount(); ++i) {
                 QWidget *widget = ui->exerciseSelect_tableWidget->cellWidget(i, 0);
@@ -168,18 +167,18 @@
                 QTableWidgetItem *repsItem = ui->exerciseSelect_tableWidget->item(i, 2);
 
                 if (!nameItem || !repsItem) {
-                    qDebug() << "Ошибка: один из элементов nameItem или repsItem - nullptr";
+                  //  qDebug() << "Ошибка: один из элементов nameItem или repsItem - nullptr";
                     continue;
                 }
                 // Получаем ID упражнения по его названию
                 query.prepare("SELECT id FROM exercises WHERE name = :name");
                 query.bindValue(":name", nameItem->text());
                 if (!query.exec()) {
-                    qDebug() << "Ошибка при получении ID упражнения: " << query.lastError().text();
+                  //  qDebug() << "Ошибка при получении ID упражнения: " << query.lastError().text();
                         continue;
                 }
                 if (!query.next()) {
-                    qDebug() << "Упражнение не найдено: " << nameItem->text();
+                  //  qDebug() << "Упражнение не найдено: " << nameItem->text();
                         continue;
                 }
                 int exerciseId = query.value(0).toInt();
@@ -190,7 +189,7 @@
                 query.bindValue(":exercise_id", exerciseId);
                 query.bindValue(":reps_count", repsItem->text().toInt());
                 if (!query.exec()) {
-                    qDebug() << "Ошибка при добавлении упражнения в сет: " << query.lastError().text();
+                   // qDebug() << "Ошибка при добавлении упражнения в сет: " << query.lastError().text();
                 }
             }
         }
@@ -220,14 +219,14 @@
             query.prepare("DELETE FROM exercise_set_links WHERE set_id = :set_id");
             query.bindValue(":set_id", setId);
             if (!query.exec()) {
-                qDebug() << "Ошибка при удалении связей упражнений сета: " << query.lastError().text();
+              //  qDebug() << "Ошибка при удалении связей упражнений сета: " << query.lastError().text();
             }
 
             // Удаление самого сета
             query.prepare("DELETE FROM exercise_sets WHERE set_id = :set_id");
             query.bindValue(":set_id", setId);
             if (!query.exec()) {
-                qDebug() << "Ошибка при удалении сета: " << query.lastError().text();
+              //  qDebug() << "Ошибка при удалении сета: " << query.lastError().text();
             }
         }
 

@@ -1,66 +1,19 @@
 #include "calendaractivity.h"
 #include "ui_calendaractivity.h"
 #include "schedule.h"
-#include <QSqlQueryModel>
-#include <QSqlQuery>
-#include <QSqlError>
-#include <QDebug>
-#include <QSqlDatabase>
-#include <QMessageBox>
-#include <QCheckBox>
-#include <QStandardItemModel>
-#include <QStyledItemDelegate>
+#include "qsqlquerymodel.h"
+#include "qsqlquery.h"
+#include "qsqlerror.h"
+#include "qdebug.h"
+#include "qsqldatabase.h"
+#include "qmessagebox.h"
+#include "qcheckbox.h"
+#include "qstandarditemmodel.h"
+#include "qstyleditemdelegate.h"
+#include "calendaractivity.h"
+#include "ui_calendaractivity.h"
+#include "checkboxdelegate.h"
 
-/**
- * @class CheckBoxDelegate
- * @brief Класс делегата для отображения и управления чекбоксами в представлении.
- *
- * CheckBoxDelegate наследуется от QStyledItemDelegate и предназначен для обработки
- * отображения и интерактивности чекбоксов в модели представления.
- */
-class CheckBoxDelegate : public QStyledItemDelegate {
-public:
-    /**
-     * @brief Конструктор делегата CheckBoxDelegate.
-     * @param parent Родительский виджет.
-     */
-    using QStyledItemDelegate::QStyledItemDelegate;
-
-    /**
-     * @brief Создает редактор (чекбокс) для элемента модели.
-     * @param parent Родительский виджет для редактора.
-     * @param option Опции стиля для редактора.
-     * @param index Индекс модели для редактирования.
-     * @return Указатель на созданный виджет редактора.
-     */
-    QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option,
-                          const QModelIndex &index) const override;
-
-    /**
-     * @brief Устанавливает данные в редакторе.
-     * @param editor Редактор (чекбокс).
-     * @param index Индекс модели, данные которого нужно отобразить.
-     */
-    void setEditorData(QWidget *editor, const QModelIndex &index) const override;
-
-    /**
-     * @brief Сохраняет данные из редактора в модель.
-     * @param editor Редактор (чекбокс).
-     * @param model Модель, в которую нужно сохранить данные.
-     * @param index Индекс модели, в которую нужно сохранить данные.
-     */
-    void setModelData(QWidget *editor, QAbstractItemModel *model,
-                      const QModelIndex &index) const override;
-
-    /**
-     * @brief Обновляет геометрию редактора.
-     * @param editor Редактор (чекбокс).
-     * @param option Опции стиля для редактора.
-     * @param index Индекс модели, для которой обновляется редактор.
-     */
-    void updateEditorGeometry(QWidget *editor,
-                              const QStyleOptionViewItem &option, const QModelIndex &index) const override;
-};
 
 void CalendarActivity::setupSetsView() {
     ui->SetstableView->clear();

@@ -13,39 +13,7 @@
 #include <QItemDelegate>
 #include <QComboBox>
 #include <QMessageBox>
-
-/*!
- * \class ValidatingComboBoxDelegate schedule.cpp "schedule.h"
- * \brief Класс ValidatingComboBoxDelegate представляет собой диалоговое окно для управления активностями календаря.
- *
- * Класс ValidatingComboBoxDelegate является наследником класса QItemDele
- */
-class ValidatingComboBoxDelegate : public QItemDelegate {
-public:
-    ValidatingComboBoxDelegate(const QStringList &items, QObject *parent = 0)
-        : QItemDelegate(parent), m_items(items) {}
-
-    QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &,
-                          const QModelIndex &) const override {
-        QComboBox *editor = new QComboBox(parent);
-        editor->addItems(m_items);
-        return editor;
-    }
-
-    void setModelData(QWidget *editor, QAbstractItemModel *model,
-                      const QModelIndex &index) const override {
-        QComboBox *comboBox = static_cast<QComboBox*>(editor);
-        QString value = comboBox->currentText();
-        if (!m_items.contains(value)) {
-            QMessageBox::warning(nullptr, "Неверное значение", "Введенное значение не найдено в списке.");
-            return;
-        }
-        model->setData(index, value, Qt::EditRole);
-    }
-
-private:
-    QStringList m_items;
-};
+#include "validatingcomboboxdelegate.h"
 
 
 
@@ -100,7 +68,6 @@ Schedule::Schedule(QWidget *parent)
     m_username("") // Инициализация с пустой строкой
 {
     ui->setupUi(this);
-    // Дополнительная инициализация, если требуется
 }
 
 Schedule::~Schedule()
@@ -112,9 +79,9 @@ void Schedule::on_saveButton_clicked()
 {
     if (model != nullptr) {
         model->submitAll();
-        qDebug() << "Изменения сохранены.";
+        //qDebug() << "Изменения сохранены.";
     } else {
-        qDebug() << "Ошибка: model не инициализирована.";
+       // qDebug() << "Ошибка: model не инициализирована.";
     }
 }
 
@@ -124,9 +91,9 @@ void Schedule::on_cancelButton_clicked()
 {
     if (model != nullptr) {
         model->revertAll();  // Отменяет все незафиксированные изменения
-        qDebug() << "Изменения отменены.";
+       // qDebug() << "Изменения отменены.";
     } else {
-        qDebug() << "Ошибка: model не инициализирована.";
+        //qDebug() << "Ошибка: model не инициализирована.";
     }
 }
 
@@ -149,19 +116,19 @@ void Schedule::on_addButton_clicked() {
     checkQuery.bindValue(":difficulty", difficulty);
 
     if (!checkQuery.exec()) {
-        qDebug() << "Ошибка выполнения запроса: " << checkQuery.lastError().text();
+        //qDebug() << "Ошибка выполнения запроса: " << checkQuery.lastError().text();
             return;
     }
 
     if (checkQuery.next()) {
             int count = checkQuery.value(0).toInt();
-            qDebug() << "Найдено записей: " << count;
+            //qDebug() << "Найдено записей: " << count;
             if (count > 0) {
                 QMessageBox::warning(this, "Предупреждение", "Такое упражнение уже существует.");
                 return;
             }
     } else {
-            qDebug() << "Нет данных для чтения или ошибка запроса";
+            //qDebug() << "Нет данных для чтения или ошибка запроса";
     }
 
 
