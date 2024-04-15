@@ -72,7 +72,7 @@ set_target_properties(fit_application PROPERTIES
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
 )
 
-install(TARGETS fit_application DESTINATION ${CMAKE_INSTALL_PREFIX})
+install(TARGETS fit_application DESTINATION bin)
 
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(fit_application)
