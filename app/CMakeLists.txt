@@ -45,17 +45,13 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
     )
-# Define target properties for Android with Qt 6 as:
-#    set_property(TARGET fit_application APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
-#                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
-# For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
+
 else()
     if(ANDROID)
         add_library(fit_application SHARED
             ${PROJECT_SOURCES}
         )
-# Define properties for Android with Qt 5 after find_package() calls as:
-#    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
+
     else()
         add_executable(fit_application
             ${PROJECT_SOURCES}
@@ -76,7 +72,7 @@ set_target_properties(fit_application PROPERTIES
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
 )
 
-install(TARGETS fit_application DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/bin)
+install(TARGETS fit_application DESTINATION ${CMAKE_INSTALL_PREFIX})
 
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(fit_application)
